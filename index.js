@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth'); // Importar las rutas
+const appointmentRoutes = require('./routes/appointment');
 
 dotenv.config(); // Cargar las variables de entorno
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // Usar las rutas de autenticación
 app.use('/api/auth', authRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
 // Conectar a la base de datos y manejar errores
 connectDB().then(() => {
