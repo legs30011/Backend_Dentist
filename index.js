@@ -1,29 +1,28 @@
+// index.js
+
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-const authRoutes = require('./routes/auth'); // Importar las rutas
+const authRoutes = require('./routes/auth');
 const appointmentRoutes = require('./routes/appointment');
+const medicineRoutes = require('./routes/medicines'); // Importa las rutas de medicinas
 
-dotenv.config(); // Cargar las variables de entorno
+dotenv.config();
 
 const app = express();
-/*const cors = require('cors');
-app.use(cors({
-    origin: 'http://localhost:3000', // Cambia esto si tu frontend está en otro dominio
-}));
-*/
+
 const cors = require('cors');
 app.use(cors());
 
-
-// Middleware para procesar los cuerpos de las solicitudes
+// Middleware para procesar cuerpos JSON
 app.use(express.json());
 
-// Usar las rutas de autenticación
+// Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/medicines', medicineRoutes); // Añade las rutas de medicinas
 
-// Conectar a la base de datos y manejar errores
+// Conectar a la base de datos
 connectDB().then(() => {
     console.log('🔵 Conexión a la base de datos exitosa');
 }).catch((err) => {
@@ -33,7 +32,6 @@ connectDB().then(() => {
 // Puerto del servidor
 const PORT = process.env.PORT || 5000;
 
-// Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`🟢 Servidor corriendo en http://localhost:${PORT}`);
 });
